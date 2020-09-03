@@ -12,7 +12,7 @@ pipeline {
         
         stage('Packaging') {
             steps {
-                echo "Compiling..."
+                echo "Packaging..."
                 sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
             }
         }
