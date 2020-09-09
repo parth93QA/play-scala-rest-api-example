@@ -17,11 +17,7 @@ pipeline {
             }
         }
         
-        stage('Deploy') {
-            steps {
-                build job: 'scala-dev-deploy'
-        }
-        }
+        
 
        
 
