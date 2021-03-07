@@ -1,30 +1,30 @@
 pipeline {
-    agent any
-
-    stages {
-
+  agent any
+  stages {
+    stage('Compile') {
+      parallel {
         stage('Compile') {
-            steps {
-                echo "Compiling..."
-                sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
-            }
+          steps {
+            echo 'Compiling...'
+            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
+          }
         }
-        
-        stage('Packaging') {
-            steps {
-                echo "Packaging..."
-                sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
-            }
+
+        stage('') {
+          steps {
+            sh 'echo "Hello Jenkins"'
+          }
         }
-          //stage('Deploy') {
-            //steps {
-                //build job: 'development-deploy'
-        //}
-        //}
-        
-        
 
-       
-
+      }
     }
+
+    stage('Packaging') {
+      steps {
+        echo 'Packaging...'
+        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+      }
+    }
+
+  }
 }
