@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'testmaster'
+      label 'master'
     }
 
   }
@@ -47,6 +47,16 @@ pipeline {
     }
 
     stage('Deploy') {
+      post {
+        always {
+          archiveArtifacts(artifacts: 'target/**/*.jar', fingerprint: true)
+        }
+
+        success {
+          stash(name: 'Play', includes: 'target/**/*.jar')
+        }
+
+      }
       steps {
         sh './jenkins/deploy.sh staging'
       }
