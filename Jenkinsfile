@@ -15,20 +15,9 @@ pipeline {
     }
 
     stage('Packaging') {
-      parallel {
-        stage('Packaging') {
-          steps {
-            echo 'Packaging...'
-            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
-          }
-        }
-
-        stage('stash') {
-          steps {
-            stash(name: 'packaged', includes: 'target/**/*.jar')
-          }
-        }
-
+      steps {
+        echo 'Packaging...'
+        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
       }
     }
 
@@ -40,12 +29,20 @@ pipeline {
           }
         }
 
-        stage('unstash') {
+        stage('stash') {
           steps {
             unstash 'packaged'
+            stash(name: 'packaged', includes: 'target/**/*.jar')
           }
         }
 
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        echo 'Confirm for deploy'
+        input(message: 'Do you wish to proceed ?', ok: 'Do It !', submitter: 'Partha')
       }
     }
 
