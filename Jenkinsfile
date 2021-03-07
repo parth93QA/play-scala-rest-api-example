@@ -31,8 +31,8 @@ pipeline {
 
         stage('stash') {
           steps {
-            unstash 'packaged'
             stash(name: 'packaged', includes: 'target/**/*.jar')
+            unstash 'packaged'
           }
         }
 
