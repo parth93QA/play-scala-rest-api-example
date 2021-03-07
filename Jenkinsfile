@@ -39,10 +39,16 @@ pipeline {
       }
     }
 
-    stage('Deploy') {
+    stage('Confirmation') {
       steps {
         echo 'Confirm for deploy'
         input(message: 'Do you wish to proceed ?', ok: 'Do It !', submitter: 'Partha')
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh './jenkins/deploy.sh staging'
       }
     }
 
