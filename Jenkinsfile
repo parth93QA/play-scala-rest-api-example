@@ -21,9 +21,9 @@ pipeline {
       }
     }
 
-    stage('error') {
+    stage('stash') {
       parallel {
-        stage('error') {
+        stage('archive') {
           steps {
             archiveArtifacts(artifacts: 'target/**/*.jar', fingerprint: true)
           }
