@@ -9,9 +9,20 @@ pipeline {
     }
 
     stage('Packaging') {
-      steps {
-        echo 'Packaging...'
-        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+      parallel {
+        stage('Packaging') {
+          steps {
+            echo 'Packaging...'
+            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+          }
+        }
+
+        stage('') {
+          steps {
+            junit '**/surefire-reports/**/*.xml'
+          }
+        }
+
       }
     }
 
