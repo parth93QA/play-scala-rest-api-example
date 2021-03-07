@@ -21,6 +21,7 @@ pipeline {
       steps {
         echo 'Packaging...'
         sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+        echo "Finished pacaking for commit ${ env.GIT_COMMIT.substring(0,6) }"
       }
     }
 
