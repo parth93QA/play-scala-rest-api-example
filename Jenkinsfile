@@ -2,17 +2,39 @@ pipeline {
   agent any
   stages {
     stage('Compile') {
-      steps {
-        echo 'Compiling...'
-        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
-        sh 'echo "${COMPILER}"'
+      parallel {
+        stage('Compile') {
+          steps {
+            echo 'Compiling...'
+            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
+            sh 'echo "${COMPILER}"'
+          }
+        }
+
+        stage('Compile Test') {
+          steps {
+            sh '"${tool name: \'sbt\', type:\'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation\'}/bin/sbt compile"'
+          }
+        }
+
       }
     }
 
     stage('Packaging') {
-      steps {
-        echo 'Packaging...'
-        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+      parallel {
+        stage('Packaging') {
+          steps {
+            echo 'Packaging...'
+            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
+          }
+        }
+
+        stage('Staging') {
+          steps {
+            sh '"${tool name: \'sbt\', type:\'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation\'}/bin/sbt clean stage"'
+          }
+        }
+
       }
     }
 
