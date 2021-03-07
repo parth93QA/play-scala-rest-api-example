@@ -62,7 +62,8 @@ pipeline {
 
       }
       steps {
-        sh './jenkins/deploy.sh staging'
+        sh '''./jenkins/deploy.sh staging
+echo "Done ... Pushing to Production"'''
       }
     }
 
