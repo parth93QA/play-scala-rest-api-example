@@ -1,40 +1,23 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'centos'
+    }
+
+  }
   stages {
     stage('Compile') {
-      parallel {
-        stage('Compile') {
-          steps {
-            echo 'Compiling...'
-            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
-            sh 'echo "${COMPILER}"'
-          }
-        }
-
-        stage('Compile Test') {
-          steps {
-            sh '"${tool name: \'sbt\', type:\'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation\'}/bin/sbt compile"'
-          }
-        }
-
+      steps {
+        echo 'Compiling...'
+        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt compile"
+        sh 'echo "${COMPILER}"'
       }
     }
 
     stage('Packaging') {
-      parallel {
-        stage('Packaging') {
-          steps {
-            echo 'Packaging...'
-            sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
-          }
-        }
-
-        stage('Staging') {
-          steps {
-            sh '"${tool name: \'sbt\', type:\'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation\'}/bin/sbt clean stage"'
-          }
-        }
-
+      steps {
+        echo 'Packaging...'
+        sh "${tool name: 'sbt', type:'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt clean stage"
       }
     }
 
