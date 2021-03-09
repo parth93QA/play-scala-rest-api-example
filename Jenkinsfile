@@ -48,7 +48,7 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh './jenkins/deploy.sh staging'
+        sh 'echo "Deploy to all nodes in Google Cloud"'
       }
     }
 
