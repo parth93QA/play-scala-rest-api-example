@@ -23,7 +23,7 @@ pipeline {
 
     stage('error') {
       parallel {
-        stage('error') {
+        stage('Archive') {
           steps {
             archiveArtifacts(artifacts: 'target/**/*.jar', fingerprint: true)
           }
