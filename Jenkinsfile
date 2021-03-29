@@ -36,6 +36,12 @@ pipeline {
           }
         }
 
+        stage('Break') {
+          steps {
+            sleep 2
+          }
+        }
+
       }
     }
 
