@@ -55,6 +55,15 @@ pipeline {
     stage('Deploy') {
       steps {
         sh 'echo "Deploy to all nodes in Google Cloud"'
+        post() {
+          success() {
+            archiveArtifacts(artifacts: 'target/**/*.jar', fingerprint: true)
+            stash(name: 'packaged', includes: 'target/**/*.jar')
+            unstash 'packaged'
+          }
+
+        }
+
       }
     }
 
