@@ -53,6 +53,9 @@ pipeline {
     }
 
     stage('Deploy') {
+      when {
+        branch 'master'
+      }
       post {
         success {
           archiveArtifacts(artifacts: 'target/**/*.jar', fingerprint: true)
